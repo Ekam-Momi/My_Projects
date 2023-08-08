@@ -40,7 +40,7 @@ customtkinter.set_default_color_theme("blue")
 
 # App frame
 my_app = customtkinter.CTk()
-my_app.geometry("740x480")
+my_app.geometry("540x380")
 my_app.title("Youtube Video Downloader")
 
                                         # USER INTERFACE ELEMENTS
@@ -69,6 +69,11 @@ prcnt_bar.pack(padx = 10, pady = 10)
 # Button for downloading video in maximum resoulution
 dnld_btn = customtkinter.CTkButton(my_app, text = "Download", command = start_download)
 dnld_btn.pack(padx = 10, pady = 10)
+
+# A magic Momi production
+
+magic_momi = customtkinter.CTkLabel(my_app, text = "A MAGIC MOMI PRODUCTION", font = ('Times New Roman', 30) )
+magic_momi.pack(padx = 10, pady = 30)
 
 # Running the app
 my_app.mainloop()
