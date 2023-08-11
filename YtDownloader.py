@@ -16,14 +16,31 @@ def start_download():
         fin_label.configure(text = "Download complete.", text_color = "green")
     except:
         fin_label.configure(text = "Invalid link, video could not be downloaded.", text_color = "red")
-    
 
-# This funtion will update the progress label and the progress bar
+
+# This function will download only the audio of the video
+def audio_download():
+    try:
+        audio_link = link.get()
+        audio_obj = YouTube(audio_link, on_progress_callback = progress_func)
+        prcnt_bar.set(0)
+        prcnt_lbl.configure(text = "0%")
+        heading.configure(text = audio_obj.title)
+        audio = audio_obj.streams.get_audio_only()
+        fin_label.configure(text = "")
+        audio.download()
+        fin_label.configure(text = "Download complete.", text_color = "green")
+    except:
+        fin_label.configure(text = "Invalid link, audio could not be downloaded.", text_color = "red")
+
+    
+# This funtion will update the progress label and the progress bar (for both video and audio funtions)
 def progress_func(stream, chunck, bytes_remaining):
     # Updating the label
     total_size = stream.filesize
     amount_downloaded = total_size - bytes_remaining
     percent_completed = amount_downloaded / total_size * 100
+    print(percent_completed)
     percent_val = str(int(percent_completed))
     prcnt_lbl.configure(text = percent_val + "%")
     prcnt_lbl.update()
@@ -40,7 +57,7 @@ customtkinter.set_default_color_theme("blue")
 
 # App frame
 my_app = customtkinter.CTk()
-my_app.geometry("540x380")
+my_app.geometry("740x480")
 my_app.title("Youtube Video Downloader")
 
                                         # USER INTERFACE ELEMENTS
@@ -67,13 +84,12 @@ prcnt_bar.set(0)
 prcnt_bar.pack(padx = 10, pady = 10)
 
 # Button for downloading video in maximum resoulution
-dnld_btn = customtkinter.CTkButton(my_app, text = "Download", command = start_download)
+dnld_btn = customtkinter.CTkButton(my_app, text = "Download Video", command = start_download)
 dnld_btn.pack(padx = 10, pady = 10)
 
-# A magic Momi production
-
-magic_momi = customtkinter.CTkLabel(my_app, text = "A MAGIC MOMI PRODUCTION", font = ('Times New Roman', 30) )
-magic_momi.pack(padx = 10, pady = 30)
+# Button for downloading only the audio
+audio_button = customtkinter.CTkButton(my_app, text = "Download Audio", command = audio_download)
+audio_button.pack(padx = 10, pady = 10)
 
 # Running the app
 my_app.mainloop()
